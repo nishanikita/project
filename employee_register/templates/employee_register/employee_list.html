@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee List</title>
+</head>
+<body>
+    <h1>Employee List</h1>
+    <div class="container mt-4"> 
+        {% if messages %} 
+        <div> {% for message in messages %} 
+            <div class="alert alert-{{ message.tags }}">
+                 {{ message }} 
+                </div> 
+                {% endfor %}
+             </div> 
+             {% endif %}
+    <button>
+    <a href="{% url 'employee_create' %}">Add Employee</a>
+    </button>
+    {% if employees %}
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Mobile Number</th>
+                <th>Salary</th>
+                <th>Position</th>
+                <th>Actions</th>
+            </tr>
+            {% for employee in employees %}
+                <tr>
+                    <td>{{ employee.name }}</td>
+                    <td>{{ employee.mobile_number }}</td>
+                    <td>{{ employee.salary|floatformat:2 }}</td> <!-- Format salary to two decimal places -->
+                    <td>{{ employee.position }}</td>
+                    <td>
+                        <button><a href="{% url 'employee_update' employee.id %}">Edit</a> </button>
+                       <button> <a href="{% url 'employee_delete' employee.id %}">Delete</a></button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No employees found.</p>
+    {% endif %}
+   <button><a href="{% url 'logout' %}">Logout</a></button>
+   </div>
+</body>
+</html>
